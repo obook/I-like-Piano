@@ -33,14 +33,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+#include "utils.hpp"
+
 void MainWindow::ComboInputChanged(int index)
 {
-    // Do something here on ComboBox index change
-    std::cout << "ComboInputChanged "<< index << "\n" << std::flush;
+    QVariant data =	ui->comboBox_Input->itemData(index);
+    libremidi::input_port p = data.value<libremidi::input_port>();
+    std::cout << "input_port =" << p << "\n" << std::flush;
 }
 
 void MainWindow::ComboOuputChanged(int index)
 {
-    // Do something here on ComboBox index change
-    std::cout << "ComboOuputChanged "<< index << "\n" << std::flush;
+    QVariant data =	ui->comboBox_Output->itemData(index);
+    libremidi::output_port p = data.value<libremidi::output_port>();
+    std::cout << "output_port =" << p << "\n" << std::flush;
 }
