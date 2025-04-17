@@ -22,6 +22,9 @@ private:
     Ui::MainWindow *ui;
     std::map<libremidi::input_port, std::string_view> input_map;
     std::map<libremidi::output_port, std::string_view> output_map;
+
+    midi_main midi;
+
 private slots:
     void ComboInputChanged(int index);
     void ComboOuputChanged(int index);

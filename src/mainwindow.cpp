@@ -8,8 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    midi_main midi = midi_main();
+    midi = midi_main();
 
+    ui->comboBox_Input->addItem("None");
     input_map = midi.midi_GetInput();
     for (const auto& pair : input_map) {
         libremidi::input_port p = (libremidi::input_port)pair.first;
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->comboBox_Input->addItem(QString::fromStdString(device), QVariant::fromValue(p));
     }
 
+    ui->comboBox_Output->addItem("None");
     output_map = midi.midi_GetOutput();
     for (const auto& pair : output_map) {
         libremidi::output_port p = (libremidi::output_port)pair.first;
@@ -37,14 +39,26 @@ MainWindow::~MainWindow()
 
 void MainWindow::ComboInputChanged(int index)
 {
-    QVariant data =	ui->comboBox_Input->itemData(index);
-    libremidi::input_port p = data.value<libremidi::input_port>();
-    std::cout << "input_port =" << p << "\n" << std::flush;
+    if (ui->comboBox_Input->currentIndex()) {
+        QVariant data =	ui->comboBox_Input->itemData(index);
+        libremidi::input_port p = data.value<libremidi::input_port>();
+        std::cout << "input_port =" << p << "\n" << std::flush;
+
+        midi.midi_OpenInput(p);
+    }
+    else {
+        // Disconnect ?
+    }
 }
 
 void MainWindow::ComboOuputChanged(int index)
 {
-    QVariant data =	ui->comboBox_Output->itemData(index);
-    libremidi::output_port p = data.value<libremidi::output_port>();
-    std::cout << "output_port =" << p << "\n" << std::flush;
+    if (ui->comboBox_Output->currentIndex()) {
+        QVariant data =	ui->comboBox_Output->itemData(index);
+        libremidi::output_port p = data.value<libremidi::output_port>();
+        std::cout << "output_port =" << p << "\n" << std::flush;
+    }
+    else {
+        // Disconnect ?
+    }
 }
