@@ -118,7 +118,9 @@ std::map<libremidi::output_port, std::string_view> midi_main::midi_GetOutput() {
 bool midi_main::midi_OpenInput(libremidi::input_port p) {
 
     libremidi::observer obs{
-        libremidi::observer_configuration{},
+        libremidi::observer_configuration{
+            .track_any = true,
+        },
         libremidi::observer_configuration_for(libremidi::API::ALSA_SEQ) // see api-c.h for API list
     };
 
