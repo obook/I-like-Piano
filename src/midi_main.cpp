@@ -36,13 +36,15 @@ midi_main::midi_main() {
 
     */
 
-    auto in_api = libremidi::midi1::in_default_configuration();
-    auto out_api = libremidi::midi1::out_default_configuration();
+    // auto in_api = libremidi::midi1::in_default_configuration();
+    // auto out_api = libremidi::midi1::out_default_configuration();
     for (auto api : libremidi::available_apis())
     {
         std::string_view api_name = libremidi::get_api_display_name(api);
 
         libremidi::observer_configuration cbs;
+
+        cbs.track_any = true, // All interfaces
         cbs.input_added = [=, this](const libremidi::input_port& p) {
             ports_input[p] = api_name;
         };
@@ -74,12 +76,12 @@ midi_main::midi_main() {
         };
 
         observers.emplace_back(cbs, libremidi::observer_configuration_for(api));
-
+        /*
         libremidi::midi_out out{
             {},
             out_api
         };
-
+        */
         auto input_callback = [&](const libremidi::message& m) {
             std::cout << "input_callback";
         };
