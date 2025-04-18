@@ -119,7 +119,7 @@ bool midi_main::midi_OpenInput(libremidi::input_port p) {
 
     libremidi::observer obs{
         libremidi::observer_configuration{
-            .track_any = true,
+            // .track_any = true,
         },
         libremidi::observer_configuration_for(libremidi::API::ALSA_SEQ) // see api-c.h for API list
     };
